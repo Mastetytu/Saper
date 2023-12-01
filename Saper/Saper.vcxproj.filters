@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sapr.c">
+    <ClCompile Include="My_sap.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Class.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,33 +5,17 @@
 #include <stdbool.h>
 
 
-// N - размер поля по умолчанию (оно квадратное); M - число мин на поле
-#define N 10
-#define M 10
-
-// поле, и массив логических значений, обозначающий те поля, что открыты
-int matrix[N][N];
-bool open[N][N];
-
 // проверяет ячейку на мину (тупо конечно, ну да ладно); выход за пределы возвращает false
-bool mine(int i, int j) {
-    if ((i >= 0) && (i < N)) {
-        if ((j >= 0) && (j < N)) {
-            if (matrix[i][j] == -1) return true;
-        }
-    }
-    return false;
+bool proverka_ich() {
+    
+    
 }
 
 // проверяет ячейку на пустоту (true), выход за пределы массива возвращает false
 bool empty(int i, int j) {
-    if ((i >= 0) && (i < N)) {
-        if ((j >= 0) && (j < N)) {
-            if (matrix[i][j] == 0) return true;
-        }
-    }
-    return false;
+ 
 }
+
 
 // рекурсивная функция, которая открывает поля в точке попадания
 void clean(int i, int j) {
@@ -80,18 +64,18 @@ void coutmine(HANDLE hConsole) {
 // и вспомогательные оси
 void draw_matrix(HANDLE hConsole) {
     SetConsoleTextAttribute(hConsole, 6);  // dark yellow text
-    printf_s("  A B C D E F G H I J\n"); 
+    printf_s("  A B C D E F G H I J\n");
     SetConsoleTextAttribute(hConsole, 7);  // white text
     for (int x = 0; x < N; x++) {
         SetConsoleTextAttribute(hConsole, 6);  // dark yellow text
-        printf_s("%d ",x);
+        printf_s("%d ", x);
         SetConsoleTextAttribute(hConsole, 7);  // white text
         for (int y = 0; y < N; y++) {
             if (open[x][y]) {
                 SetConsoleTextAttribute(hConsole, 8);  // gray text
                 if (matrix[x][y] == -1) coutmine(hConsole);
                 else if (matrix[x][y] == 0) printf_s(". ");
-                else printf(" %d ", matrix[x][y]); 
+                else printf(" %d ", matrix[x][y]);
                 SetConsoleTextAttribute(hConsole, 7);  // white text
             }
             else {
@@ -145,43 +129,7 @@ bool checkwin() {
     return true;
 }
 
-
-int _tmain(int argc, _TCHAR* argv[])
-{
-    int i, j, k = 0;
-    char s[3];
-    HANDLE  hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-   
-    setlocale(0, "rus");
-    srand((int)time(NULL));
-
-    // все чистим
-    for (int c = 0; c < 100; c++) { matrix[c / 10][c % 10] = 0; open[c / 10][c % 10] = false; }
-    // заполняем массив поля минами
-    for (int c = 0; c < M; c++) {
-        do {
-            i = rand() % N; j = rand() % N;
-        } while (matrix[i][j] != 0);
-        matrix[i][j] = -1;
-    }
-    // заполняем массив поля цифрами
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            if (matrix[i][j] != -1) {
-                k = 0;
-                if (mine(i - 1, j - 1)) k++;
-                if (mine(i - 1, j)) k++;
-                if (mine(i - 1, j + 1)) k++;
-                if (mine(i, j - 1)) k++;
-                if (mine(i, j + 1)) k++;
-                if (mine(i + 1, j - 1)) k++;
-                if (mine(i + 1, j)) k++;
-                if (mine(i + 1, j + 1)) k++;
-                matrix[i][j] = k;
-            }
-        }
-    }
-
+int game_ch() {
     // главный игровой цикл
     while (true) {
         // чистим экран от старого рисунка
@@ -205,6 +153,4 @@ int _tmain(int argc, _TCHAR* argv[])
         if (mine(i, j)) { openmines(); fin(hConsole, true); break; }  // программа покидает цикл в случае проигрыша
         if (checkwin()) { fin(hConsole, false); break; }                 // или победы
     }
-
-    return 0;
 }
