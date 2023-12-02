@@ -20,44 +20,57 @@
     u = x * y;
     if (con == u)
     {
+        ris_pol(mas, x, y);
+        system("cls");
         exit(1);
+        
     }
    
 }
 
- int atak(int** mas, int x, int y) {
+ int atak(int** mas) {
+     int x, y;
     printf_s("”кажите координату по оси x: ");
     scanf_s("%d", &x);
     printf_s("”кажите координату по оси y: ");
     scanf_s("%d", &y);
-    mas[x][y] = 0;
+    if (mas[x][y] == -1)
+                    {
+                        mas[x][y] = 2;
+                    }
+    else
+    {
+        mas[x][y] = 0;
+    }
+     system("cls");
 }
 // рисует поле
- void ris_pol(HANDLE hConsole, int** mas, int x, int y) {
+ int ris_pol( int** mas, int x, int y) {
      
-    printf_s("  A B C D E F G H I J\n");
+    printf_s(" \tA \tB \tC \tD \tE\n");
     for (int i = 0; i < x; i++) {
 
         printf_s("%d ", i);
         for (int j = 0; j < y; j++) {
             
-            if  (mas[i][j] == -1){
-                printf_s("\t*");
+             if (mas[i][j] == 2) {
+                    printf_s("\t*");
+                    
+             }
+             else if (mas[i][j] == 0) {
+                    printf_s("\t#");
+                    
+             }
+             else {
+                
+                    printf_s("\t.");
+                
             }
-            else if (mas[i][j] == 0) {
-
-                printf_s("*");
-            }
-            else if (mas[i][j] == 1) {
-
-                printf_s("*");
-            }
-
         }
 
         printf("\t\n");
     }
-    atak(mas, x, y);
+    
 
 }
 int main() {
@@ -65,12 +78,11 @@ int main() {
 	srand((int)time(NULL));
     int razmer,x,y;
     int** mass;
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     printf_s("”кажите размер пол€ по оси x и y: ");
     scanf_s("%d", &razmer);
     x = razmer;
     y = x;
-    mass = (int**)malloc(x * sizeof(int));
+   mass = (int**)malloc(x * sizeof(int*));
     int  k = 0;
     // заполн€ем массив пол€ цифрами
     for (int i = 0; i < razmer; i++) {
@@ -81,16 +93,18 @@ int main() {
         }
     }
     //// заполн€ем массив пол€ минами
-    for (int i = 0; i <= razmer; i++) {
-        x = rand() % razmer;
-        y = rand() % razmer;
-        mass[x][y] = -1;
+    for (int i = 0; i < razmer; i++) {
+        int p, h;
+        p = rand() % razmer;
+        h = rand() % razmer;
+        mass[p][h] = -1;
     }
     int yrte = 0;
     while (yrte!=1)
     {
-        ris_pol(hConsole, &mass, x, y);
-        prover(&mass, x, y);
+        ris_pol( mass, x, y);
+        atak(mass);
+        prover(mass, x, y);
     }
 
     for (int i = 0; i < razmer; i++) {
