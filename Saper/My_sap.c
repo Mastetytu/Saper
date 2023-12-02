@@ -1,47 +1,45 @@
 #include <stdio.h>
 #include<locale.h>
-#include <iostream>
-#include <time.h>
 #include <windows.h>
 #include <conio.h>
 #include <stdbool.h>
+#include <malloc.h>
 #include "Class.c"
 
 
-
 int main() {
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
 	setlocale(LC_ALL, "ru");
 	srand((int)time(NULL));
-    
-    HANDLE  hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-   
-    // заполняем массив поля минами
-    for (int c = 0; c < M; c++) {
-        do {
-            i = rand() % N; j = rand() % N;
-        } while (matrix[i][j] != 0);
-        matrix[i][j] = -1;
-    }
+    int razmer,x,y;
+    int** mass;
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    printf_s("Укажите размер поля по оси x и y: ");
+    scanf_s("%d", &razmer);
+    x = razmer;
+    y = x;
+    mass = (int**)malloc(x * sizeof(int));
+    int  k = 0;
     // заполняем массив поля цифрами
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            if (matrix[i][j] != -1) {
-                k = 0;
-                if (mine(i - 1, j - 1)) k++;
-                if (mine(i - 1, j)) k++;
-                if (mine(i - 1, j + 1)) k++;
-                if (mine(i, j - 1)) k++;
-                if (mine(i, j + 1)) k++;
-                if (mine(i + 1, j - 1)) k++;
-                if (mine(i + 1, j)) k++;
-                if (mine(i + 1, j + 1)) k++;
-                matrix[i][j] = k;
-            }
+    for (int i = 0; i < razmer; i++) {
+        // Выделение памяти под хранение строк
+        mass[i] = (int*)malloc(y * sizeof(int));
+        for (int j = 0; j < razmer; j++) {
+                mass[i][j] = 1;
         }
     }
+    //// заполняем массив поля минами
+    for (int i = 0; i <= razmer; i++) {
+        x = rand() % razmer;
+        y = rand() % razmer;
+        mass[x][y] = -1;
+    }
+    while (prover(&mass, x, y) ==1)
+    {
+        ris_pol(hConsole, &mass, x, y);
+    }
 
-   
-
+    chisy_pam(&mass, razmer);
     return 0;
 }
