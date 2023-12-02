@@ -46,8 +46,11 @@
 }
 // рисует поле
  int ris_pol( int** mas, int x, int y) {
-     
-    printf_s(" \tA \tB \tC \tD \tE\n");
+     for (int c = 0; c < x; c++)
+     {
+         printf_s("\t%d",c);
+     }
+     printf_s("\n");
     for (int i = 0; i < x; i++) {
 
         printf_s("%d ", i);
