@@ -4,12 +4,63 @@
 #include <conio.h>
 #include <stdbool.h>
 #include <malloc.h>
-#include "Class.c"
 
+ int prover(int** mas, int x, int y) {
+    int con = 0;
+    for (int i = 0; i < x; i++) {
+        for (int j = 0; j < y; j++) {
+            if (mas[i][j] == 0)
+            {
+                con = con + 1;
+            }
 
+        }
+    }
+    int u;
+    u = x * y;
+    if (con == u)
+    {
+        exit(1);
+    }
+   
+}
+
+ int atak(int** mas, int x, int y) {
+    printf_s("”кажите координату по оси x: ");
+    scanf_s("%d", &x);
+    printf_s("”кажите координату по оси y: ");
+    scanf_s("%d", &y);
+    mas[x][y] = 0;
+}
+// рисует поле
+ void ris_pol(HANDLE hConsole, int** mas, int x, int y) {
+     
+    printf_s("  A B C D E F G H I J\n");
+    for (int i = 0; i < x; i++) {
+
+        printf_s("%d ", i);
+        for (int j = 0; j < y; j++) {
+            
+            if  (mas[i][j] == -1){
+                printf_s("\t*");
+            }
+            else if (mas[i][j] == 0) {
+
+                printf_s("*");
+            }
+            else if (mas[i][j] == 1) {
+
+                printf_s("*");
+            }
+
+        }
+
+        printf("\t\n");
+    }
+    atak(mas, x, y);
+
+}
 int main() {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
 	setlocale(LC_ALL, "ru");
 	srand((int)time(NULL));
     int razmer,x,y;
@@ -35,11 +86,16 @@ int main() {
         y = rand() % razmer;
         mass[x][y] = -1;
     }
-    while (prover(&mass, x, y) ==1)
+    int yrte = 0;
+    while (yrte!=1)
     {
         ris_pol(hConsole, &mass, x, y);
+        prover(&mass, x, y);
     }
 
-    chisy_pam(&mass, razmer);
+    for (int i = 0; i < razmer; i++) {
+        free(mass[i]);
+    }
+    free(mass);
     return 0;
 }
