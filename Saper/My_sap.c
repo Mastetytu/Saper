@@ -47,18 +47,20 @@ int atak(int** mas, int razm, int yt) {
     scanf_s("%d", &y);
     if (mas[x][y] == -1)
     {
-
-        exit(1);
+        mas[x][y] = -3;
+        
     }
     else
     {
-        mas[x][y] = 0;
+        mas[x][y] = -2;
     }
     
     system("cls");
 }
+
 // рисует поле
 int ris_pol(HANDLE hConsole, int** mas, int x, int y) {
+    int per = 0;
     for (int c = 0; c < x; c++)
     {
         printf_s("\t%d", c);
@@ -69,14 +71,118 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y) {
         printf_s("%d ", i);
         for (int j = 0; j < y; j++) {
 
-            /*  if (mas[i][j] == 0) {
+             if (mas[i][j] == -3) {
+                    SetConsoleTextAttribute(hConsole, 12);
                     printf_s("\t#");
-
-             }*/
-            if (mas[i][j] >= 0) {
+                    SetConsoleTextAttribute(hConsole, 7);
+             }
+            else if (mas[i][j] == -2) {
                 SetConsoleTextAttribute(hConsole, 10);
-                printf_s("\t%d", mas[i][j]);
+                printf_s("\t#");
                 SetConsoleTextAttribute(hConsole, 7);
+            }  
+            else if (i - 1 > -1 && j - 1 > -1 && i + 1 < x && j + 1 < y) {
+                if (mas[i + 1][j] == -2) {
+                    
+                    printf_s("\t%d", mas[i][j]);
+                    SetConsoleTextAttribute(hConsole, 7);
+                }
+                else {
+
+                    printf_s("\t.");
+
+                }
+            }
+             
+            else if (i - 1 > -1 && j - 1 > -1 && i + 1 < x && j + 1 < y) {
+                if (mas[i + 1][j + 1] == -2) {
+                    
+                    printf_s("\t%d", mas[i][j]);
+                    SetConsoleTextAttribute(hConsole, 7);
+                }
+                else {
+
+                    printf_s("\t.");
+
+                }
+            }
+             
+            else if (i - 1 > -1 && j - 1 > -1 && i + 1 < x && j + 1 < y) {
+                if (mas[i][j + 1] == -2) {
+                    
+                    printf_s("\t%d", mas[i][j]);
+                    SetConsoleTextAttribute(hConsole, 7);
+                }
+                else {
+
+                    printf_s("\t.");
+
+                }
+            }
+            
+            else if (i - 1 > -1 && j - 1 > -1 && i + 1 < x && j + 1 < y) {
+                if (mas[i - 1][j] == -2) {
+                    
+                    printf_s("\t%d", mas[i][j]);
+                    SetConsoleTextAttribute(hConsole, 7);
+                }
+                else {
+
+                    printf_s("\t.");
+
+                }
+            }
+             
+            else if (i - 1 > -1 && j - 1 > -1 && i + 1 < x && j + 1 < y) {
+                if (mas[i - 1][j - 1] == -2) {
+                   
+                    printf_s("\t%d", mas[i][j]);
+                    SetConsoleTextAttribute(hConsole, 7);
+                }
+                else {
+
+                    printf_s("\t.");
+
+                }
+            }
+            
+            else if (i - 1 > -1 && j - 1 > -1 && i + 1 < x && j + 1 < y) {
+                if (mas[i][j - 1] == -2) {
+                    
+                    printf_s("\t%d", mas[i][j]);
+                    SetConsoleTextAttribute(hConsole, 7);
+                }
+                else {
+
+                    printf_s("\t.");
+
+                }
+            }
+            
+            else if (i - 1 > -1 && j - 1 > -1 && i + 1 < x && j + 1 < y) {
+                if (mas[i + 1][j - 1] == -2) {
+                    
+                    printf_s("\t%d", mas[i][j]);
+                    SetConsoleTextAttribute(hConsole, 7);
+                }
+                else {
+
+                    printf_s("\t.");
+
+                }
+            }
+            
+            else if (i - 1 > -1 && j - 1 > -1 && i + 1 < x && j + 1 < y) {
+                if (mas[i - 1][j + 1] == -2) {
+                   
+                    printf_s("\t%d", mas[i][j]);
+                    SetConsoleTextAttribute(hConsole, 7);
+                }
+                else {
+
+                    printf_s("\t.");
+
+                }
             }
             else {
 
@@ -84,11 +190,22 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y) {
 
             }
         }
-
+        per = per + 1;
         printf_s("\t\n");
     }
+    if (per=x)
+    {
+        for (int i = 0; i < x; i++) {
 
 
+            for (int j = 0; j < y; j++) {
+                if (mas[i][j] == -3)
+                {
+                    exit(1);
+                }
+            }
+        }
+    }
 }
 int main() {
     setlocale(LC_ALL, "ru");
