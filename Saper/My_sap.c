@@ -4,60 +4,7 @@
 #include <conio.h>
 #include <stdbool.h>
 #include <malloc.h>
-int podch_min(int** mas, int x, int i, int j) {
 
-    if (i > 0) {
-        if (j < x - 1) {
-            if (mas[i - 1][j + 1] == -1)
-            {
-                mas[i][j] = mas[i][j] + 1;
-            }
-            if (mas[i - 1][j] == -1)
-            {
-                mas[i][j] = mas[i][j] + 1;
-            }
-
-        }
-        if (i < x - 1)
-        {
-            if (j > 0)
-            {
-                if (mas[i + 1][j - 1] == -1) {
-                    mas[i][j] = mas[i][j] + 1;
-                }
-            }
-            if (mas[i + 1][j] == -1) {
-                mas[i][j] = mas[i][j] + 1;
-            }
-        }
-        if (j > 0)
-        {
-            if (i > 0) {
-                if (mas[i - 1][j - 1] == -1) {
-                    mas[i][j] = mas[i][j] + 1;
-                }
-            }
-            if (mas[i][j - 1] == -1) {
-                mas[i][j] = mas[i][j] + 1;
-            }
-        }
-
-        if (j < x - 1) {
-            if (i < x - 1)
-            {
-                if (mas[i + 1][j + 1] == -1) {
-                    mas[i][j] = mas[i][j] + 1;
-                }
-            }
-            if (mas[i][j + 1] == -1) {
-                mas[i][j] = mas[i][j] + 1;
-            }
-        }
-
-
-
-    }
-}
 int pro_pro(int** mas, int x, int yt) {
     for (int c = 0; c < x; c++)
     {
@@ -66,7 +13,7 @@ int pro_pro(int** mas, int x, int yt) {
             {
                 if (yt == 0)
                 {
-                    podch_min(mas, x, c, q);
+                   
                     yt++;
                 }
 
@@ -110,12 +57,12 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y) {
                     printf_s("\t#");
 
              }*/
-            if (mas[i][j] >= 0) {
+            if (mas[i][j] == 0) {
                 SetConsoleTextAttribute(hConsole, 10);
                 int u;
                 u = mas[i][j];
                 printf_s("\t%d", u);
-
+                SetConsoleTextAttribute(hConsole, 7);
             }
             else {
 
@@ -155,6 +102,61 @@ int main() {
         p = rand() % razmer;
         h = rand() % razmer;
         mass[p][h] = -1;
+    }
+    for (int i = 0; i < razmer; ++i)
+    {
+        for (int j = 0; j < razmer; ++j)
+        {
+            if (mass[i][j] != -1)
+                if (j < x - 1) {
+                    if (mass[i - 1][j + 1] == -1)
+                    {
+                        mass[i][j] = mass[i][j] + 1;
+                    }
+                    if (mass[i - 1][j] == -1)
+                    {
+                        mass[i][j] = mass[i][j] + 1;
+                    }
+
+                }
+            if (i < x - 1)
+            {
+                if (j > 0)
+                {
+                    if (mass[i + 1][j - 1] == -1) {
+                        mass[i][j] = mass[i][j] + 1;
+                    }
+                }
+                if (mass[i + 1][j] == -1) {
+                    mass[i][j] = mass[i][j] + 1;
+                }
+            }
+            if (j > 0)
+            {
+                if (i > 0) {
+                    if (mass[i - 1][j - 1] == -1) {
+                        mass[i][j] = mass[i][j] + 1;
+                    }
+                }
+                if (mass[i][j - 1] == -1) {
+                    mass[i][j] = mass[i][j] + 1;
+                }
+            }
+
+            if (j < x - 1) {
+                if (i < x - 1)
+                {
+                    if (mass[i + 1][j + 1] == -1) {
+                        mass[i][j] = mass[i][j] + 1;
+                    }
+                }
+                if (mass[i][j + 1] == -1) {
+                    mass[i][j] = mass[i][j] + 1;
+                }
+            }
+        }
+        
+
     }
     int yt = 0;
     int yrte = 0;
