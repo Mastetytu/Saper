@@ -4,25 +4,41 @@
 #include <conio.h>
 #include <stdbool.h>
 #include <malloc.h>
-
-int pro_pro(int** mas, int x, int yt) {
-    for (int c = 0; c < x; c++)
+int protg(int** mass, int razmer) {
+    for (int i = 0; i < razmer; ++i)
     {
-        for (int q = 0; c < x; c++) {
-            if (mas[c][q] != -1)
-            {
-                if (yt == 0)
-                {
-                   
-                    yt++;
-                }
-
+        for (int j = 0; j < razmer; ++j)
+        {
+            if (mass[i][j] != -1)
+            {if(i-1>-1 && j-1>-1 && i+1<razmer && j+1<razmer)
+                if (i > 0 && mass[i + 1][j] == -1)
+                    ++mass[i][j];
+            if (i - 1 > -1 && j - 1 > -1 && i + 1 < razmer && j + 1 < razmer)
+                if (i < razmer - 1 && mass[i - 1][j] == -1)
+                    ++mass[i][j];
+            if (i - 1 > -1 && j - 1 > -1 && i + 1 < razmer && j + 1 < razmer)
+                if (j > 0 && mass[i][j - 1] == -1)
+                    ++mass[i][j];
+            if (i - 1 > -1 && j - 1 > -1 && i + 1 < razmer && j + 1 < razmer)
+                if (j < razmer - 1 && mass[i][j + 1] == -1)
+                    ++mass[i][j];
+            if (i - 1 > -1 && j - 1 > -1 && i + 1 < razmer && j + 1 < razmer)
+                if (j < razmer - 1 && i>0 && mass[i - 1][j + 1] == -1)
+                    ++mass[i][j];
+            if (i - 1 > -1 && j - 1 > -1 && i + 1 < razmer && j + 1 < razmer)
+                if (i < razmer - 1 && j>0 && mass[i + 1][j - 1] == -1)
+                    ++mass[i][j];
+            if (i - 1 > -1 && j - 1 > -1 && i + 1 < razmer && j + 1 < razmer)
+                if (j < razmer - 1 && i < razmer - 1 && mass[i + 1][j + 1] == -1)
+                    ++mass[i][j];
+            if (i - 1 > -1 && j - 1 > -1 && i + 1 < razmer && j + 1 < razmer)
+                if (j > 0 && i > 0 && mass[i - 1][j - 1] == -1)
+                    ++mass[i][j];
             }
-
         }
     }
-
 }
+
 int atak(int** mas, int razm, int yt) {
     int x, y;
     printf_s("Укажите координату по оси x: ");
@@ -38,7 +54,7 @@ int atak(int** mas, int razm, int yt) {
     {
         mas[x][y] = 0;
     }
-    pro_pro(mas, razm, yt);
+    
     system("cls");
 }
 // рисует поле
@@ -57,11 +73,9 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y) {
                     printf_s("\t#");
 
              }*/
-            if (mas[i][j] == 0) {
+            if (mas[i][j] >= 0) {
                 SetConsoleTextAttribute(hConsole, 10);
-                int u;
-                u = mas[i][j];
-                printf_s("\t%d", u);
+                printf_s("\t%d", mas[i][j]);
                 SetConsoleTextAttribute(hConsole, 7);
             }
             else {
@@ -71,7 +85,7 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y) {
             }
         }
 
-        printf("\t\n");
+        printf_s("\t\n");
     }
 
 
@@ -86,14 +100,14 @@ int main() {
     scanf_s("%d", &razmer);
     x = razmer;
     y = x;
-    mass = (int**)malloc(x * sizeof(int*));
+    mass = (int**)malloc( x * sizeof(int*));
     int  k = 0;
     // заполняем массив поля цифрами
     for (int i = 0; i < razmer; i++) {
         // Выделение памяти под хранение строк
         mass[i] = (int*)malloc(y * sizeof(int));
         for (int j = 0; j < razmer; j++) {
-            mass[i][j] = 1;
+            mass[i][j] = 0;
         }
     }
     //// заполняем массив поля минами
@@ -103,60 +117,12 @@ int main() {
         h = rand() % razmer;
         mass[p][h] = -1;
     }
-    for (int i = 0; i < razmer; ++i)
-    {
-        for (int j = 0; j < razmer; ++j)
-        {
-            if (mass[i][j] != -1)
-                if (j < x - 1) {
-                    if (mass[i - 1][j + 1] == -1)
-                    {
-                        mass[i][j] = mass[i][j] + 1;
-                    }
-                    if (mass[i - 1][j] == -1)
-                    {
-                        mass[i][j] = mass[i][j] + 1;
-                    }
-
-                }
-            if (i < x - 1)
-            {
-                if (j > 0)
-                {
-                    if (mass[i + 1][j - 1] == -1) {
-                        mass[i][j] = mass[i][j] + 1;
-                    }
-                }
-                if (mass[i + 1][j] == -1) {
-                    mass[i][j] = mass[i][j] + 1;
-                }
-            }
-            if (j > 0)
-            {
-                if (i > 0) {
-                    if (mass[i - 1][j - 1] == -1) {
-                        mass[i][j] = mass[i][j] + 1;
-                    }
-                }
-                if (mass[i][j - 1] == -1) {
-                    mass[i][j] = mass[i][j] + 1;
-                }
-            }
-
-            if (j < x - 1) {
-                if (i < x - 1)
-                {
-                    if (mass[i + 1][j + 1] == -1) {
-                        mass[i][j] = mass[i][j] + 1;
-                    }
-                }
-                if (mass[i][j + 1] == -1) {
-                    mass[i][j] = mass[i][j] + 1;
-                }
-            }
-        }
-        
-
+    int vr1, vr2;
+    int TYR = 0;
+    if (TYR!=1)
+    { 
+        protg( mass, razmer);
+        TYR++;
     }
     int yt = 0;
     int yrte = 0;
