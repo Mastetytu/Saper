@@ -39,6 +39,7 @@ int protg(int** mass, int razmer) {
     }
 }
 int reyeyu(HANDLE hConsole,int razm, int** mas) {
+    int no=0, yes=0;
     system("cls");
     for (int k = 0; k < razm; k++)
     {
@@ -53,6 +54,18 @@ int reyeyu(HANDLE hConsole,int razm, int** mas) {
                 printf_s("\t#");
                 SetConsoleTextAttribute(hConsole, 7);
             }
+            else  if (mas[u][l] == -4) {
+                SetConsoleTextAttribute(hConsole, 11);
+                printf_s("\t#");
+                SetConsoleTextAttribute(hConsole, 7);
+                yes++;
+            }
+            else  if (mas[u][l] == -5) {
+                SetConsoleTextAttribute(hConsole, 7);
+                printf_s("\t#");
+                SetConsoleTextAttribute(hConsole, 7);
+                no++;
+            }
             else {
                 printf_s("\t%d", mas[u][l]);
             }
@@ -60,25 +73,60 @@ int reyeyu(HANDLE hConsole,int razm, int** mas) {
         }
         printf_s("\t\n");
     }
+    printf_s("Неудачные разминнирования: %d \n Удачные разминнирования: %d \n",no,yes );
+    if (no>0)
+    {
+        printf_s("Вы проиграли \n");
+    }
+    for (int i = 0; i < razm; i++) {
+        free(mas[i]);
+    }
+    free(mas);
     exit(1);
 }
 int atak(int** mas, int razm, int yt) {
     int x, y;
-    printf_s("Укажите координату по оси x: ");
-    scanf_s("%d", &x);
-    printf_s("Укажите координату по оси y: ");
-    scanf_s("%d", &y);
-    if (mas[x][y] == -1)
-    {
-        mas[x][y] = -3;
-        
-    }
-    else
-    {
-        mas[x][y] = -2;
-    }
+    int k = 0;
     
-    system("cls");
+    printf_s("1.Разминировать \n2.Атаковать \nВаш выбор:");
+    scanf_s("%d", &k);
+    if (k==1)
+    {
+        printf_s("Укажите координату по оси x: ");
+        scanf_s("%d", &x);
+        printf_s("Укажите координату по оси y: ");
+        scanf_s("%d", &y);
+        if (mas[x][y] == -1)
+        {
+            mas[x][y] = -4;
+
+        }
+        else
+        {
+            mas[x][y] = -5;
+        }
+
+        system("cls");
+    }
+    else if (k==2)
+    {
+        printf_s("Укажите координату по оси x: ");
+        scanf_s("%d", &x);
+        printf_s("Укажите координату по оси y: ");
+        scanf_s("%d", &y);
+        if (mas[x][y] == -1)
+        {
+            mas[x][y] = -3;
+
+        }
+        else
+        {
+            mas[x][y] = -2;
+        }
+
+        system("cls");
+    }
+   
 }
 
 // рисует поле
@@ -97,7 +145,13 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y,int razm) {
              if (mas[i][j] == -3) {
                  reyeyu(hConsole, razm, mas);
              }
-            else if (mas[i][j] == -2) {
+             else  if (mas[i][j] == -4 || mas[i][j] == -5) {
+                 SetConsoleTextAttribute(hConsole, 11);
+                 printf_s("\t#");
+                 SetConsoleTextAttribute(hConsole, 7);
+                 
+             }
+             else if (mas[i][j] == -2) {
                 SetConsoleTextAttribute(hConsole, 10);
                 printf_s("\t#");
                 SetConsoleTextAttribute(hConsole, 7);
@@ -391,7 +445,7 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y,int razm) {
         
         printf_s("\t\n");
     }
-
+    
 }
 int main() {
     setlocale(LC_ALL, "ru");
