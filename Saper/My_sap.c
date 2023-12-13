@@ -4,7 +4,8 @@
 #include <conio.h>
 #include <stdbool.h>
 #include <malloc.h>
-int protg(int** mass, int razmer) {
+//проверка мин
+int Checking_mines(int** mass, int razmer) {
     for (int i = 0; i < razmer; ++i)
     {
         for (int j = 0; j < razmer; ++j)
@@ -38,7 +39,8 @@ int protg(int** mass, int razmer) {
         }
     }
 }
-int reyeyu(HANDLE hConsole,int razm, int** mas) {
+//конец игры
+int The_end_of_the_game(HANDLE hConsole,int razm, int** mas) {
     int no=0, yes=0;
     system("cls");
     for (int k = 0; k < razm; k++)
@@ -84,10 +86,83 @@ int reyeyu(HANDLE hConsole,int razm, int** mas) {
     free(mas);
     exit(1);
 }
-int atak(int** mas, int razm, int yt) {
+//атака
+int repeat_call(int** mas, int razm, int x, int y) {
+    if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < razm && y + 1 < razm)
+    {
+        performing_a_check(mas, razm, x + 1, y);
+        performing_a_check(mas, razm, x - 1, y);
+        performing_a_check(mas, razm, x + 1, y + 1);
+        performing_a_check(mas, razm, x - 1, y - 1);
+        performing_a_check(mas, razm, x, y + 1);
+        performing_a_check(mas, razm, x, y - 1);
+        performing_a_check(mas, razm, x - 1, y + 1);
+        performing_a_check(mas, razm, x + 1, y - 1);
+    } 
+    else {
+        system("cls");
+        printf_s("Ошибка");
+        return;
+    }
+}
+int performing_a_check(int** mas, int razm, int x, int y) {
+    if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < razm && y + 1 < razm)
+    {
+        if (mas[x - 1][y] == 0 || mas[x - 1][y] == -6) {
+            mas[x - 1][y] = -6;
+             
+        }
+
+        else if (mas[x + 1][y] == 0 || mas[x + 1][y] == -6) {
+            mas[x + 1][y] = -6;
+             
+        }
+
+        else if (mas[x + 1][y + 1] == 0 || mas[x + 1][y + 1] == -6) {
+            mas[x + 1][y + 1] = -6;
+            
+        }
+
+        else if (mas[x + 1][y - 1] == 0 || mas[x + 1][y - 1] == -6) {
+            mas[x + 1][y - 1] = -6;
+             
+        }
+
+        else if (mas[x][y - 1] == 0 || mas[x][y - 1] == -6) {
+            mas[x][y - 1] = -6;
+             
+        }
+        else if (mas[x][y + 1] == 0 || mas[x][y + 1] == -6) {
+            mas[x][y + 1] = -6;
+        }
+        else if (mas[x - 1][y - 1] == 0 || mas[x - 1][y - 1] == -6) {
+            mas[x - 1][y - 1] = -6;
+        }
+        else if (mas[x - 1][y + 1] == 0 || mas[x - 1][y + 1] == -6) {
+            mas[x - 1][y + 1] = -6;
+        }
+    }
+    else {
+        system("cls");
+        printf_s("Ошибка");
+        
+    }
+}
+int opening_zeros(int** mas, int razm,int x,int y) {
+     if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < razm && y + 1 < razm)
+     {
+         repeat_call(mas, razm, x, y);
+     }
+     else {
+         system("cls");
+         printf_s("Ошибка");
+         return;
+     }
+}
+int atak(int** mas, int razm) {
+    
     int x, y;
     int k = 0;
-    
     printf_s("1.Разминировать \n2.Атаковать \nВаш выбор:");
     scanf_s("%d", &k);
     if (k==1)
@@ -96,14 +171,22 @@ int atak(int** mas, int razm, int yt) {
         scanf_s("%d", &x);
         printf_s("Укажите координату по оси y: ");
         scanf_s("%d", &y);
-        if (mas[x][y] == -1)
-        {
-            mas[x][y] = -4;
+        if (mas[x][y] != -2) {
+            if (mas[x][y] == -1)
+            {
+                mas[x][y] = -4;
 
+            }
+            else
+            {
+                mas[x][y] = -5;
+            }
         }
         else
         {
-            mas[x][y] = -5;
+           
+            printf_s("Введите еще раз\n");
+            atak(mas, razm);
         }
 
         system("cls");
@@ -122,12 +205,20 @@ int atak(int** mas, int razm, int yt) {
         else
         {
             mas[x][y] = -2;
+            opening_zeros(mas, razm, x, y);
         }
 
         system("cls");
     }
+    else
+    {
+       
+        printf_s("Введите еще раз\n");
+        atak(mas, razm);
+    }
    
 }
+//работа с границами
 int upper_left_corner(HANDLE hConsole, int** mas,int i, int j, int razm) {
     if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
         //левый вр угол
@@ -435,8 +526,68 @@ int nothing(HANDLE hConsole, int** mas, int i, int j, int razm) {
         }
     }
 }
+int checking_the_sides_and_angles(HANDLE hConsole, int** mas, int i, int j, int razm) {
+    upper_left_corner(hConsole, mas, i, j, razm);
+    upper_right_corner(hConsole, mas, i, j, razm);
+    lower_left_corner(hConsole, mas, i, j, razm);
+    lower_right_corner(hConsole, mas, i, j, razm);
+    the_left_wall(hConsole, mas, i, j, razm);
+    the_right_wall(hConsole, mas, i, j, razm);
+    the_upper_wall(hConsole, mas, i, j, razm);
+    the_lower_wall(hConsole, mas, i, j, razm);
+    nothing(hConsole, mas, i, j, razm);
+}
+int central_verification(HANDLE hConsole, int** mas, int i, int j, int razm) {
+    if (mas[i + 1][j] == -2) {
+
+        printf_s("\t%d", mas[i][j]);
+        SetConsoleTextAttribute(hConsole, 7);
+    }
+    else if (mas[i + 1][j + 1] == -2) {
+
+        printf_s("\t%d", mas[i][j]);
+        SetConsoleTextAttribute(hConsole, 7);
+    }
+    else if (mas[i][j + 1] == -2) {
+
+        printf_s("\t%d", mas[i][j]);
+        SetConsoleTextAttribute(hConsole, 7);
+    }
+
+    else if (mas[i - 1][j] == -2) {
+
+        printf_s("\t%d", mas[i][j]);
+        SetConsoleTextAttribute(hConsole, 7);
+    }
+    else if (mas[i - 1][j - 1] == -2) {
+
+        printf_s("\t%d", mas[i][j]);
+        SetConsoleTextAttribute(hConsole, 7);
+    }
+    else if (mas[i][j - 1] == -2) {
+
+        printf_s("\t%d", mas[i][j]);
+        SetConsoleTextAttribute(hConsole, 7);
+    }
+    else if (mas[i + 1][j - 1] == -2) {
+
+        printf_s("\t%d", mas[i][j]);
+        SetConsoleTextAttribute(hConsole, 7);
+    }
+    else if (mas[i - 1][j + 1] == -2) {
+
+        printf_s("\t%d", mas[i][j]);
+        SetConsoleTextAttribute(hConsole, 7);
+    }
+
+    else {
+
+        printf_s("\t.");
+
+    }
+}
 // рисует поле
-int ris_pol(HANDLE hConsole, int** mas, int x, int y,int razm) {
+int draws_a_field(HANDLE hConsole, int** mas, int x, int y,int razm) {
     
     for (int c = 0; c < x; c++)
     {
@@ -449,7 +600,10 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y,int razm) {
         for (int j = 0; j < y; j++) {
 
              if (mas[i][j] == -3) {
-                 reyeyu(hConsole, razm, mas);
+                 The_end_of_the_game(hConsole, razm, mas);
+             }
+             else  if (mas[i][j] ==-6) {
+                 printf_s("\t0");
              }
              else  if (mas[i][j] == -4 || mas[i][j] == -5) {
                  SetConsoleTextAttribute(hConsole, 11);
@@ -463,64 +617,10 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y,int razm) {
                 SetConsoleTextAttribute(hConsole, 7);
             }  
             else if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
-                 upper_left_corner(hConsole, mas, i, j, razm );
-                 upper_right_corner(hConsole, mas, i, j, razm );
-                 lower_left_corner(hConsole, mas, i, j, razm);
-                 lower_right_corner(hConsole, mas, i, j, razm);
-                 the_left_wall(hConsole, mas, i, j, razm);
-                 the_right_wall(hConsole, mas, i, j, razm);
-                 the_upper_wall(hConsole, mas, i, j, razm);
-                 the_lower_wall(hConsole, mas, i, j, razm);
-                 nothing(hConsole, mas, i, j, razm);
+                 checking_the_sides_and_angles(hConsole, mas, i, j, razm);
             }
             else if (i - 1 > -1 && j - 1 > -1 && i + 1 < razm && j + 1 < razm && mas[i][j] != -1 ) {
-                if (mas[i + 1][j] == -2 ) {
-                    
-                    printf_s("\t%d", mas[i][j]);
-                    SetConsoleTextAttribute(hConsole, 7);
-                }
-                else if (mas[i + 1][j + 1] == -2) {
-
-                    printf_s("\t%d", mas[i][j]);
-                    SetConsoleTextAttribute(hConsole, 7);
-                }
-                else if (mas[i][j + 1] == -2) {
-
-                    printf_s("\t%d", mas[i][j]);
-                    SetConsoleTextAttribute(hConsole, 7);
-                }
-
-                else if (mas[i - 1][j] == -2) {
-
-                    printf_s("\t%d", mas[i][j]);
-                    SetConsoleTextAttribute(hConsole, 7);
-                }
-                else if (mas[i - 1][j - 1] == -2) {
-
-                    printf_s("\t%d", mas[i][j]);
-                    SetConsoleTextAttribute(hConsole, 7);
-                }
-                else if (mas[i][j - 1] == -2) {
-
-                    printf_s("\t%d", mas[i][j]);
-                    SetConsoleTextAttribute(hConsole, 7);
-                }
-                else if (mas[i + 1][j - 1] == -2) {
-
-                    printf_s("\t%d", mas[i][j]);
-                    SetConsoleTextAttribute(hConsole, 7);
-                }
-                else if (mas[i - 1][j + 1] == -2) {
-
-                    printf_s("\t%d", mas[i][j]);
-                    SetConsoleTextAttribute(hConsole, 7);
-                }
-                
-                else {
-
-                    printf_s("\t.");
-
-                }
+                 central_verification(hConsole, mas, i, j, razm);
              }
             else {
 
@@ -560,22 +660,13 @@ int main() {
         h = rand() % razmer;
         mass[p][h] = -1;
     }
-    int vr1, vr2;
-    int TYR = 0;
-    if (TYR!=1)
-    { 
-        protg( mass, razmer);
-        TYR++;
-    }
-    int yt = 0;
-    int yrte = 0;
-    while (yrte != 1)
+    Checking_mines( mass, razmer);
+    int an_endless_loop = 0;
+    while (an_endless_loop != 1)
     {
-        ris_pol(hConsole, mass, x, y, razmer);
-        atak(mass, razmer, yt);
-
+        draws_a_field(hConsole, mass, x, y, razmer);
+        atak(mass, razmer);
     }
-
     for (int i = 0; i < razmer; i++) {
         free(mass[i]);
     }
