@@ -110,36 +110,43 @@ int performing_a_check(int** mas, int razm, int x, int y) {
     {
         if (mas[x - 1][y] == 0 || mas[x - 1][y] == -6) {
             mas[x - 1][y] = -6;
+            repeat_call(mas, razm, x, y);
              
         }
 
         else if (mas[x + 1][y] == 0 || mas[x + 1][y] == -6) {
             mas[x + 1][y] = -6;
+            repeat_call(mas, razm, x, y);
              
         }
 
         else if (mas[x + 1][y + 1] == 0 || mas[x + 1][y + 1] == -6) {
             mas[x + 1][y + 1] = -6;
+            repeat_call(mas, razm, x, y);
             
         }
 
         else if (mas[x + 1][y - 1] == 0 || mas[x + 1][y - 1] == -6) {
             mas[x + 1][y - 1] = -6;
-             
+            repeat_call(mas, razm, x, y);
         }
 
         else if (mas[x][y - 1] == 0 || mas[x][y - 1] == -6) {
             mas[x][y - 1] = -6;
+            repeat_call(mas, razm, x, y);
              
         }
         else if (mas[x][y + 1] == 0 || mas[x][y + 1] == -6) {
             mas[x][y + 1] = -6;
+            repeat_call(mas, razm, x, y);
         }
         else if (mas[x - 1][y - 1] == 0 || mas[x - 1][y - 1] == -6) {
             mas[x - 1][y - 1] = -6;
+            repeat_call(mas, razm, x, y);
         }
         else if (mas[x - 1][y + 1] == 0 || mas[x - 1][y + 1] == -6) {
             mas[x - 1][y + 1] = -6;
+            repeat_call(mas, razm, x, y);
         }
     }
     else {
