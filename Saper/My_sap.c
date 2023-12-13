@@ -128,7 +128,275 @@ int atak(int** mas, int razm, int yt) {
     }
    
 }
-
+int upper_left_corner(HANDLE hConsole, int** mas,int i, int j, int razm, int check) {
+    if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
+        //левый вр угол
+        if (i == 0 && j == 0)
+        {
+            if (mas[i + 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i + 1][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else
+            {
+                printf_s("\t.");
+                check += 1;
+            }
+        }
+    }
+}
+int upper_right_corner(HANDLE hConsole, int** mas, int i, int j, int razm, int check) {
+    if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
+        //правый вр угол
+         if (i == 0 && j + 1 == razm)
+        {
+            if (mas[i][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i + 1][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i + 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if(check==0)
+            {
+                printf_s("\t.");
+                check += 1;
+            }
+        }
+    }
+}
+int lower_left_corner(HANDLE hConsole, int** mas, int i, int j, int razm, int check) {
+    if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
+        //левый ниж угол
+         if (i + 1 == razm && j == 0)
+        {
+            if (mas[i][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i - 1][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i - 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (check == 0)
+            {
+                printf_s("\t.");
+                check += 1;
+            }
+        }
+    }
+}
+int lower_right_corner(HANDLE hConsole, int** mas, int i, int j, int razm, int check) {
+    if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
+        //правый ниж  угол
+        if (i + 1 == razm && j + 1 == razm)
+        {
+            if (mas[i][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i - 1][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i - 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (check == 0)
+            {
+                printf_s("\t.");
+                check += 1;
+            }
+        }
+    }
+}
+int the_left_wall(HANDLE hConsole, int** mas, int i, int j, int razm, int check) {
+    if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
+        //левая стенка 
+        if (i - 1 > 0 && j == 0 && i + 1 != razm)
+        {
+            if (mas[i + 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i - 1][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i + 1][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i = 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (check == 0)
+            {
+                printf_s("\t.");
+                check += 1;
+            }
+        }
+    }
+}
+int the_right_wall(HANDLE hConsole, int** mas, int i, int j, int razm, int check) {
+    if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
+        //правая стенка
+        if (i - 1 > 0 && j + 1 == razm && i + 1 != razm)
+        {
+            if (mas[i - 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i - 1][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i + 1][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i + 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (check == 0)
+            {
+                printf_s("\t.");
+                check += 1;
+            }
+        }
+    }
+}
+int the_upper_wall(HANDLE hConsole, int** mas, int i, int j, int razm, int check) {
+    if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
+        //верхняя стенка
+        if (i == 0 && j - 1 > -1 && j + 1 != razm)
+        {
+            if (mas[i][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i + 1][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i + 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i + 1][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (check == 0)
+            {
+                printf_s("\t.");
+                check += 1;
+            }
+        }
+    }
+}
+int the_lower_wall(HANDLE hConsole, int** mas, int i, int j, int razm, int check) {
+    if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
+        //нижняя стенка
+        if (i + 1 == razm && j - 1 > 0 && j + 1 != razm)
+        {
+            if (mas[i][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i - 1][j - 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i - 1][j] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i - 1][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (mas[i][j + 1] == -2)
+            {
+                printf_s("\t%d", mas[i][j]);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            else if (check == 0)
+            {
+                printf_s("\t.");
+                check += 1;
+            }
+        }
+    }
+    else if (check == 0)
+    {
+        printf_s("\t.");
+        check += 1;
+    }
+}
 // рисует поле
 int ris_pol(HANDLE hConsole, int** mas, int x, int y,int razm) {
     
@@ -157,236 +425,16 @@ int ris_pol(HANDLE hConsole, int** mas, int x, int y,int razm) {
                 SetConsoleTextAttribute(hConsole, 7);
             }  
             else if ((i - 1 < -1 || j - 1 < -1 || j + 1 == razm || i + 1 == razm) && mas[i][j] != -1) {
-                 //левый вр угол
-                 if (i == 0 && j==0)
-                 {
-                     if (mas[i+1][j]==-2 )
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if(mas[i + 1][j+1] == -2 )
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i ][j + 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else
-                     {
-                         printf_s("\t.");
-                     }
-                 }
-                 //правый вр стенка
-                 else if (i == 0 && j + 1 == razm)
-                 {
-                     if (mas[i][j - 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i + 1][j - 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i + 1][j] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else
-                     {
-                         printf_s("\t.");
-                     }
-                 }
-                 //левый ниж стенка
-                 else if (i + 1 == razm && j == 0)
-                 {
-                     if (mas[i][j + 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i - 1][j + 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i - 1][j] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else
-                     {
-                         printf_s("\t.");
-                     }
-                 }
-                 //правый ниж  стенка
-                 else if (i + 1 == razm && j + 1 == razm)
-                 {
-                     if (mas[i][j - 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i - 1][j - 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i - 1][j] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else
-                     {
-                         printf_s("\t.");
-                     }
-                 }
-                 //левая стенка 
-                 else if(i -1>0&& j==0 && i+1!=razm)
-                 {
-                     if (mas[i + 1][j] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i - 1][j + 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i ][j +1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i + 1][j+1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i=1][j ] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else
-                     {
-                         printf_s("\t.");
-                     }
-                 }//правая стенка
-                 else if (i -1>0 && j+1 ==razm && i +1!=razm)
-                 {
-                     if (mas[i - 1][j] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i - 1][j - 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i ][j - 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i + 1][j-1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i+1][j ] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else
-                     {
-                         printf_s("\t.");
-                     }
-                 }
-                 //верхняя стенка
-                   else if (i ==0 && j - 1 > -1 && j+1!=razm)
-                 {
-                     if (mas[i ][j-1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i + 1][j - 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i+1][j ] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i + 1][j + 1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else if (mas[i ][j+1] == -2)
-                     {
-                         printf_s("\t%d", mas[i][j]);
-                         SetConsoleTextAttribute(hConsole, 7);
-                     }
-                     else
-                     {
-                         printf_s("\t.");
-                     }
-                 }
-                 //нижняя стенка
-                    else if (i +1== razm && j - 1 > 0 && j + 1 != razm)
-                 {
-                        if (mas[i][j - 1] == -2)
-                        {
-                            printf_s("\t%d", mas[i][j]);
-                            SetConsoleTextAttribute(hConsole, 7);
-                        }
-                        else if (mas[i - 1][j - 1] == -2)
-                        {
-                            printf_s("\t%d", mas[i][j]);
-                            SetConsoleTextAttribute(hConsole, 7);
-                        }
-                        else if (mas[i - 1][j] == -2)
-                        {
-                            printf_s("\t%d", mas[i][j]);
-                            SetConsoleTextAttribute(hConsole, 7);
-                        }
-                        else if (mas[i - 1][j + 1] == -2)
-                        {
-                            printf_s("\t%d", mas[i][j]);
-                            SetConsoleTextAttribute(hConsole, 7);
-                        }
-                        else if (mas[i][j + 1] == -2)
-                        {
-                            printf_s("\t%d", mas[i][j]);
-                            SetConsoleTextAttribute(hConsole, 7);
-                        }
-                        else
-                        {
-                            printf_s("\t.");
-                        }
-                 }
-                
-                 else {
-
-                     printf_s("\t.");
-
-                 }
-             }
+                 int check = 0;
+                 upper_left_corner(hConsole, mas, i, j, razm, check);
+                 upper_right_corner(hConsole, mas, i, j, razm, check);
+                 lower_left_corner(hConsole, mas, i, j, razm, check);
+                 lower_right_corner(hConsole, mas, i, j, razm, check);
+                 the_left_wall(hConsole, mas, i, j, razm, check);
+                 the_right_wall(hConsole, mas, i, j, razm, check);
+                 the_upper_wall(hConsole, mas, i, j, razm, check);
+                 the_lower_wall(hConsole, mas, i, j, razm, check);
+            }
             else if (i - 1 > -1 && j - 1 > -1 && i + 1 < razm && j + 1 < razm && mas[i][j] != -1 ) {
                 if (mas[i + 1][j] == -2 ) {
                     
