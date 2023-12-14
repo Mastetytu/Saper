@@ -22,7 +22,7 @@ int Checking_mines(int** mass, int razmer) {
                     ++mass[i][j];
             if (i - 1 > -1 && j - 1 > -1 && i + 1 < razmer && j + 1 < razmer)
                 if (j < razmer - 1 && mass[i][j + 1] == -1)
-                    ++mass[i][j];
+                      ++mass[i][j];
             if (i - 1 > -1 && j - 1 > -1 && i + 1 < razmer && j + 1 < razmer)
                 if (j < razmer - 1 && i>0 && mass[i - 1][j + 1] == -1)
                     ++mass[i][j];
@@ -55,6 +55,18 @@ int The_end_of_the_game(HANDLE hConsole,int razm, int** mas) {
                 SetConsoleTextAttribute(hConsole, 12);
                 printf_s("\t#");
                 SetConsoleTextAttribute(hConsole, 7);
+            }
+            else  if (mas[u][l] == -1) {
+                SetConsoleTextAttribute(hConsole, 12);
+                printf_s("\t-1");
+                SetConsoleTextAttribute(hConsole, 7);
+                
+            }
+            else  if (mas[u][l] == -6) {
+                SetConsoleTextAttribute(hConsole, 7);
+                printf_s("\t0");
+                SetConsoleTextAttribute(hConsole, 7);
+
             }
             else  if (mas[u][l] == -4) {
                 SetConsoleTextAttribute(hConsole, 11);
@@ -90,14 +102,7 @@ int The_end_of_the_game(HANDLE hConsole,int razm, int** mas) {
 int repeat_call(int** mas, int razm, int x, int y) {
     if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < razm && y + 1 < razm)
     {
-        performing_a_check(mas, razm, x + 1, y);
-        performing_a_check(mas, razm, x - 1, y);
-        performing_a_check(mas, razm, x + 1, y + 1);
-        performing_a_check(mas, razm, x - 1, y - 1);
-        performing_a_check(mas, razm, x, y + 1);
-        performing_a_check(mas, razm, x, y - 1);
-        performing_a_check(mas, razm, x - 1, y + 1);
-        performing_a_check(mas, razm, x + 1, y - 1);
+        performing_a_check(mas, razm, x , y);
     } 
     else {
         system("cls");
@@ -108,44 +113,52 @@ int repeat_call(int** mas, int razm, int x, int y) {
 int performing_a_check(int** mas, int razm, int x, int y) {
     if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < razm && y + 1 < razm)
     {
-        if (mas[x - 1][y] == 0 || mas[x - 1][y] == -6) {
+        if (mas[x - 1][y] == 0 ) {
             mas[x - 1][y] = -6;
+            repeat_call(mas, razm, (x-1), y);
             repeat_call(mas, razm, x, y);
              
         }
 
-        else if (mas[x + 1][y] == 0 || mas[x + 1][y] == -6) {
+        else if (mas[x + 1][y] == 0 ) {
             mas[x + 1][y] = -6;
+            repeat_call(mas, razm, (x+1), y);
             repeat_call(mas, razm, x, y);
              
         }
 
-        else if (mas[x + 1][y + 1] == 0 || mas[x + 1][y + 1] == -6) {
+        else if (mas[x + 1][y + 1] == 0 ) {
             mas[x + 1][y + 1] = -6;
+            repeat_call(mas, razm, (x + 1), (y+1));
             repeat_call(mas, razm, x, y);
             
         }
 
-        else if (mas[x + 1][y - 1] == 0 || mas[x + 1][y - 1] == -6) {
+        else if (mas[x + 1][y - 1] == 0 ) {
             mas[x + 1][y - 1] = -6;
+            repeat_call(mas, razm, (x + 1), (y-1));
             repeat_call(mas, razm, x, y);
         }
 
-        else if (mas[x][y - 1] == 0 || mas[x][y - 1] == -6) {
+        else if (mas[x][y - 1] == 0 ) {
             mas[x][y - 1] = -6;
+            repeat_call(mas, razm, x, (y-1));
             repeat_call(mas, razm, x, y);
              
         }
-        else if (mas[x][y + 1] == 0 || mas[x][y + 1] == -6) {
+        else if (mas[x][y + 1] == 0 ) {
             mas[x][y + 1] = -6;
+            repeat_call(mas, razm, x, (y+1));
             repeat_call(mas, razm, x, y);
         }
-        else if (mas[x - 1][y - 1] == 0 || mas[x - 1][y - 1] == -6) {
+        else if (mas[x - 1][y - 1] == 0 ) {
             mas[x - 1][y - 1] = -6;
+            repeat_call(mas, razm, (x-1), (y-1));
             repeat_call(mas, razm, x, y);
         }
-        else if (mas[x - 1][y + 1] == 0 || mas[x - 1][y + 1] == -6) {
+        else if (mas[x - 1][y + 1] == 0) {
             mas[x - 1][y + 1] = -6;
+            repeat_call(mas, razm, (x-1), (y+1));
             repeat_call(mas, razm, x, y);
         }
     }
@@ -166,7 +179,7 @@ int opening_zeros(int** mas, int razm,int x,int y) {
          return;
      }
 }
-int atak(int** mas, int razm) {
+int atak(HANDLE hConsole, int** mas, int razm, int h, int j) {
     
     int x, y;
     int k = 0;
@@ -178,22 +191,34 @@ int atak(int** mas, int razm) {
         scanf_s("%d", &x);
         printf_s("”кажите координату по оси y: ");
         scanf_s("%d", &y);
-        if (mas[x][y] != -2) {
-            if (mas[x][y] == -1)
-            {
-                mas[x][y] = -4;
+        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < razm && y + 1 < razm)
+        {
+            if (mas[x][y] != -2) {
+                if (mas[x][y] == -1)
+                {
+                    mas[x][y] = -4;
 
+                }
+                else
+                {
+                    mas[x][y] = -5;
+                }
             }
             else
             {
-                mas[x][y] = -5;
+                system("cls");
+                draws_a_field(hConsole, mas, razm, h, j);
+                printf_s("¬ведите еще раз\n");
+                atak(hConsole, mas, razm, h, j);
             }
         }
         else
         {
-           
+
+            system("cls");
+            draws_a_field(hConsole, mas, razm, h, j);
             printf_s("¬ведите еще раз\n");
-            atak(mas, razm);
+            atak(hConsole, mas, razm, h, j);
         }
 
         system("cls");
@@ -204,24 +229,46 @@ int atak(int** mas, int razm) {
         scanf_s("%d", &x);
         printf_s("”кажите координату по оси y: ");
         scanf_s("%d", &y);
-        if (mas[x][y] == -1)
+        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < razm && y + 1 < razm)
         {
-            mas[x][y] = -3;
+            if (mas[x][y] != -4 && mas[x][y] != -5) {
+                if (mas[x][y] == -1)
+                {
+                    mas[x][y] = -3;
 
+                }
+                else
+                {
+                    mas[x][y] = -2;
+                    opening_zeros(mas, razm, x, y);
+                }
+            }
+            else
+            {
+
+                system("cls");
+                draws_a_field(hConsole, mas, razm, h, j);
+                printf_s("¬ведите еще раз\n");
+                atak(hConsole, mas, razm, h, j);
+            }
         }
         else
         {
-            mas[x][y] = -2;
-            opening_zeros(mas, razm, x, y);
-        }
 
+            system("cls");
+            draws_a_field(hConsole, mas, razm, h, j);
+            printf_s("¬ведите еще раз\n");
+            atak(hConsole, mas, razm, h, j);
+        }
         system("cls");
     }
     else
     {
        
+        system("cls");
+        draws_a_field(hConsole, mas, razm, h, j);
         printf_s("¬ведите еще раз\n");
-        atak(mas, razm);
+        atak(hConsole, mas, razm, h, j);
     }
    
 }
@@ -594,7 +641,7 @@ int central_verification(HANDLE hConsole, int** mas, int i, int j, int razm) {
     }
 }
 // рисует поле
-int draws_a_field(HANDLE hConsole, int** mas, int x, int y,int razm) {
+int draws_a_field(HANDLE hConsole, int** mas,int razm, int x, int y) {
     
     for (int c = 0; c < x; c++)
     {
@@ -650,8 +697,7 @@ int main() {
     scanf_s("%d", &razmer);
     x = razmer;
     y = x;
-    mass = (int**)malloc( x * sizeof(int*));
-    int  k = 0;
+    mass = (int**)malloc(x * sizeof(int*));
     // заполн€ем массив пол€ цифрами
     for (int i = 0; i < razmer; i++) {
         // ¬ыделение пам€ти под хранение строк
@@ -661,7 +707,7 @@ int main() {
         }
     }
     //// заполн€ем массив пол€ минами
-    for (int i = 0; i <= razmer; i++) {
+    for (int i = 0; i <= razmer + 2; i++) {
         int p, h;
         p = rand() % razmer;
         h = rand() % razmer;
@@ -671,12 +717,13 @@ int main() {
     int an_endless_loop = 0;
     while (an_endless_loop != 1)
     {
-        draws_a_field(hConsole, mass, x, y, razmer);
-        atak(mass, razmer);
+        draws_a_field(hConsole, mass, razmer, x, y);
+        atak(hConsole, mass, razmer, x, y);
     }
     for (int i = 0; i < razmer; i++) {
         free(mass[i]);
     }
     free(mass);
     return 0;
+    
 }
